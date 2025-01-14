@@ -168,44 +168,24 @@
                             <outputDirectory>${standalone.classpath}</outputDirectory>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>nl.praegus</groupId>
-                <artifactId>jetspeed-unpack-maven-plugin</artifactId>
-                <version>2.3.2</version>
-                <executions>
                     <execution>
                         <id>copy-hsac-baseline</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <unpack>
-                                <artifact>nl.hsac:hsac-fitnesse-fixtures:zip</artifact>
-                                <targetDirectory>${standalone.classpath}/..</targetDirectory>
-                                <overwrite>false</overwrite>
-                                <resources>
-                                    <resource>
-                                        <include>plugins/**</include>
-                                        <exclude>plugins/toolchain-*</exclude>
-                                    </resource>
-                                </resources>
-                            </unpack>
+                            <includeGroupIds>nl.hsac</includeGroupIds>
+                            <includeArtifactIds>hsac-fitnesse-fixtures</includeArtifactIds>
+                            <classifier>standalone</classifier>
+                            <type>zip</type>
+                            <outputDirectory>${project.basedir}/wiki</outputDirectory>
+                            <excludes>fixtures/templates/**,**/META-INF/**</excludes>
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>nl.hsac</groupId>
-                        <artifactId>hsac-fitnesse-fixtures</artifactId>
-                        <version>${hsac.fixtures.version}</version>
-                        <classifier>standalone</classifier>
-                        <type>zip</type>
-                    </dependency>
-                </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
